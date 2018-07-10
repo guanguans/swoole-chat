@@ -69,8 +69,8 @@ $http->on('request', function ($request, $response) use ($http) {
     $res = ob_get_contents();
     ob_end_clean();
     $response->end($res);
-    $http->close($request->fd);
+    // $http->close($request->fd);
 
 });
-
+// http://192.168.10.10:8888/?s=index/index/hello 以这种方式请求
 $http->start();
