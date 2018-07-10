@@ -10,3 +10,12 @@
 // +----------------------------------------------------------------------
 
 // 应用公共文件
+
+function ajaxReturn($code, $message, $data = [])
+{
+    return [
+        "code"    => $code,
+        "message" => $message,
+        "data"    => $data,
+    ];
+}

@@ -63,7 +63,7 @@ $http->on('request', function ($request, $response) use ($http) {
         // 执行应用并响应
         think\Container::get('app')->run()->send();
     } catch (\Exception $e) {
-        print_r($e->getError());
+        print_r($e->getMessage());
     }
     // echo "--action--" . request()->action() . PHP_EOL;
     $res = ob_get_contents();
