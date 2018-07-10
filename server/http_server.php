@@ -8,7 +8,7 @@ $http->set(
     [
         'enable_static_handler' => true,
         'document_root'         => "/home/vagrant/code/think/public/static/home",
-        'worker_num'            => 4,
+        'worker_num'            => 3,
     ]
 );
 $http->on('WorkerStart', function ($serv, $worker_id) {
@@ -16,7 +16,7 @@ $http->on('WorkerStart', function ($serv, $worker_id) {
     require __DIR__ . '/../thinkphp/base.php';
 });
 $http->on('request', function ($request, $response) use ($http) {
-    // $_SERVER = [];
+    $_SERVER = [];
     if (isset($request->server)) {
         foreach ($request->server as $k => $v) {
             $_SERVER[strtoupper($k)] = $v;
@@ -30,28 +30,28 @@ $http->on('request', function ($request, $response) use ($http) {
     }
     $_SERVER['argv'][0] = '';
 
-    // $_POST = [];
+    $_POST = [];
     if (isset($request->post)) {
         foreach ($request->post as $k => $v) {
             $_POST[$k] = $v;
         }
     }
 
-    // $_GET = [];
+    $_GET = [];
     if (isset($request->get)) {
         foreach ($request->get as $k => $v) {
             $_GET[$k] = $v;
         }
     }
 
-    // $_FILES = [];
+    $_FILES = [];
     if (isset($request->files)) {
         foreach ($request->files as $k => $v) {
             $_FILES[$k] = $v;
         }
     }
 
-    // $_COOKIE = [];
+    $_COOKIE = [];
     if (isset($request->cookie)) {
         foreach ($request->cookie as $k => $v) {
             $_COOKIE[$k] = $v;
