@@ -15,6 +15,9 @@
     <link rel="stylesheet" href="./assert/iconfont/iconfont.css">
     <link rel="shortcut icon" href="./favicon.ico">
     <script src="./js/jquery-3.3.1.min.js"></script>
+    <script src="https://cdn.bootcss.com/validator/10.2.0/validator.min.js"></script>
+    <script src="https://cdn.bootcss.com/layer/3.1.0/mobile/layer.js"></script>
+    <script src="./js/app.js"></script>
     <style>
     body {
         background: #eee;
@@ -86,56 +89,71 @@
     <form class="login" id="form">
         <h2>图文直播平台</h2>
         <div class="login-item">
-            <input type="text" placeholder="邮箱" class="phone-num" name="email" />
+            <input type="text" placeholder="邮箱" class="phone-num" name="email" require />
             <button type="button" id="authCodeBtn">验证码</button>
         </div>
         <div class="login-item">
-            <input type="text" placeholder="验证码" name="authCode" />
+            <input type="text" placeholder="验证码" name="authCode" require />
         </div>
         <button type="submit" class="submit-btn" id="submit-btn">进入平台</button>
     </form>
-    <script>
-    $(function() {
-        var $back = $('#back');
-        var $submitBtn = $('#submit-btn');
-        // 发送邮箱验证码
-        $('#authCodeBtn').click(function(event) {
-            var email = $("input[name='email']").val()
-            url = "http://192.168.10.10:8888/?s=home/email/authCode";
-            $(this).html('已发送').attr('disabled', true);
-            $.post(url, { email: email }, function(data) {
-                var res = JSON.parse(data);
-                console.log(res);
-                if (res.code == 1) {
-                    alert(res.message);
-                }
-            });
-        });
-
-        // 登录
-        $submitBtn.click(function(event) {
-            event.preventDefault();
-            var formData = $('form').serialize();
-            var url = "http://192.168.10.10:8888/?s=home/login/login&" + formData;
-            $.get(url, function(data) {
-                var res = JSON.parse(data);
-                console.log(res);
-                if (res.code == -1) {
-                    alert(res.message);
-                }
-                if (res.code == 1) {
-                    alert(res.message);
-                    window.location.href = "http://192.168.10.10:8888/detail.html";
-                }
-            });
-        });
-
-        // 返回上一页
-        $back.click(function(e) {
-            window.history.back();
+</body>
+<script>
+$(function() {
+    var $back = $('#back');
+    var $submitBtn = $('#submit-btn');
+    // 发送邮箱验证码
+    $('#authCodeBtn').click(function(event) {
+        var email = $("input[name='email']").val()
+        if (validator.isEmpty(email) || !validator.isEmail(email)) {
+            msg('邮箱格式不正确！');
+            return;
+        }
+        url = app.host + "/static/home/?s=home/login/authCode";
+        $(this).html('已发送').attr('disabled', true);
+        $.post(url, { email: email }, function(data) {
+            var res = JSON.parse(data);
+            console.log(res);
+            if (res.code == 1) {
+                msg(res.message);
+            }
         });
     });
-    </script>
-</body>
 
+    // 登录
+    $submitBtn.click(function(event) {
+        event.preventDefault();
+        var email = $("input[name='email']").val()
+        if (!validator.isEmail(email)) {
+            msg('邮箱格式不正确！');
+            return;
+        }
+
+        var authCode = $("input[name='authCode']").val()
+        if (!validator.isEmpty(authCode) && !validator.isInt(authCode)) {
+            msg('验证码格式不正确!');
+            return;
+        }
+        var formData = $('form').serialize();
+        var url = app.host + "/static/home/?s=home/login/login&" + formData;
+        $.get(url, function(data) {
+            var res = JSON.parse(data);
+            console.log(res);
+            if (res.code == -1) {
+                msg(res.message);
+                return;
+            }
+            if (res.code == 1) {
+                msg(res.message);
+                window.location.href = app.host + "/static/home/detail.html";
+            }
+        });
+    });
+
+    // 返回上一页
+    $back.click(function(e) {
+        window.history.back();
+    });
+});
+</script>
 </html>
