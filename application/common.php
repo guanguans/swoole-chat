@@ -13,9 +13,9 @@
 
 function ajaxReturn($code, $message, $data = [])
 {
-    return [
+    return json_encode([
         "code"    => $code,
         "message" => $message,
         "data"    => $data,
-    ];
+    ]);
 }

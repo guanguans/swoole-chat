@@ -2,129 +2,140 @@
 <html>
 
 <head>
-	<meta charset="utf-8" />
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>图文直播 - 登录</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-	<meta content="yes" name="apple-mobile-web-app-capable" />
-	<meta content="black" name="apple-mobile-web-app-status-bar-style" />
-	<meta content="telephone=no" name="format-detection" />
-	<meta content="email=no" name="format-detection" />
-	<link rel="stylesheet" type="text/css" href="./assert/css/reset.css" />
-	<link rel="stylesheet" type="text/css" href="./assert/css/main.css" />
-	<link rel="stylesheet" href="./assert/iconfont/iconfont.css">
-	<link rel="shortcut icon" href="./favicon.ico">
-	<script src="./js/jquery-3.3.1.min.js"></script>
-	<style>
-		body {
-			background: #eee;
-		}
-		.login {
-			text-align: center;
-			margin-top: 8vh;
-			padding: 20px;
-		}
-		.login h2 {
-			font-size: 1.2rem;
-			margin-bottom: 1rem;
-		}
-		.login-item {
-			font-size: 0;
-			background: #fff;
-			padding-left: 1rem;
-			border: 1px solid #eee;
-		}
-		/*避免两个输入框间的border重叠*/
-		.login-item:last-child {
-			border-top: 0;
-		}
-		input, button {
-			width: 100%;
-			border: none;
-			outline: none;
-			height: 50px;
-			line-height: 50px;
-			font-size: 1.2rem;
-			color: #333;
-			background: transparent;
-		}
-		.phone-num {
-			width: 70%;
-		}
-		/*获取验证码的button*/
-		.login-item button {
-			width: 30%;
-			padding: 0 10px;
-			background: none;
-			color: inherit;
-			display: inline-block;
-			background: ghostwhite;
-			border-left: 1px solid #eee;
-		}
-		.submit-btn {
-			background: #00a1d6;
-			width: 100%;
-			color: #fff;
-			margin-top: 30px;
-		}
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>图文直播 - 登录</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="black" name="apple-mobile-web-app-status-bar-style" />
+    <meta content="telephone=no" name="format-detection" />
+    <meta content="email=no" name="format-detection" />
+    <link rel="stylesheet" type="text/css" href="./assert/css/reset.css" />
+    <link rel="stylesheet" type="text/css" href="./assert/css/main.css" />
+    <link rel="stylesheet" href="./assert/iconfont/iconfont.css">
+    <link rel="shortcut icon" href="./favicon.ico">
+    <script src="./js/jquery-3.3.1.min.js"></script>
+    <style>
+    body {
+        background: #eee;
+    }
 
-	</style>
+    .login {
+        text-align: center;
+        margin-top: 8vh;
+        padding: 20px;
+    }
+
+    .login h2 {
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+    }
+
+    .login-item {
+        font-size: 0;
+        background: #fff;
+        padding-left: 1rem;
+        border: 1px solid #eee;
+    }
+    /*避免两个输入框间的border重叠*/
+
+    .login-item:last-child {
+        border-top: 0;
+    }
+
+    input,
+    button {
+        width: 100%;
+        border: none;
+        outline: none;
+        height: 50px;
+        line-height: 50px;
+        font-size: 1.2rem;
+        color: #333;
+        background: transparent;
+    }
+
+    .phone-num {
+        width: 70%;
+    }
+    /*获取验证码的button*/
+
+    .login-item button {
+        width: 30%;
+        padding: 0 10px;
+        background: none;
+        color: inherit;
+        display: inline-block;
+        background: ghostwhite;
+        border-left: 1px solid #eee;
+    }
+
+    .submit-btn {
+        background: #00a1d6;
+        width: 100%;
+        color: #fff;
+        margin-top: 30px;
+    }
+    </style>
 </head>
 
 <body>
-	<header class="header xxl-font">
-		<i class="icon iconfont icon-fanhui back" id="back"></i>
-		登录
-	</header>
-	<form class="login" id="form">
-		<h2>图文直播平台</h2>
-		<div class="login-item">
-			<input type="text" placeholder="邮箱" class="phone-num" name="email"/>
-			<button type="button" id="authCodeBtn">验证码</button>
-		</div>
-		<div class="login-item">
-			<input type="text" placeholder="验证码" name="authCode" />
-		</div>
-		<button type="submit" class="submit-btn" id="submit-btn">进入平台</button>
-	</form>
-	<script>
-		$(function () {
-			var $back = $('#back');
-			var $submitBtn = $('#submit-btn');
-			// 发送邮箱验证码
-		 	$('#authCodeBtn').click(function (event) {
-			    var email = $("input[name='email']").val()
-				url = "http://192.168.10.10:8888/?s=home/email/authCode";
-				$(this).html('已发送').attr('disabled', true);
-				$.post(url, {email:email}, function (data) {
-					var res =  JSON.parse(data);
-					console.log(res);
-					if (res.code == 1) {
-						alert('发送成功');
-					}
-				});
-			});
+    <header class="header xxl-font">
+        <i class="icon iconfont icon-fanhui back" id="back"></i> 登录
+    </header>
+    <form class="login" id="form">
+        <h2>图文直播平台</h2>
+        <div class="login-item">
+            <input type="text" placeholder="邮箱" class="phone-num" name="email" />
+            <button type="button" id="authCodeBtn">验证码</button>
+        </div>
+        <div class="login-item">
+            <input type="text" placeholder="验证码" name="authCode" />
+        </div>
+        <button type="submit" class="submit-btn" id="submit-btn">进入平台</button>
+    </form>
+    <script>
+    $(function() {
+        var $back = $('#back');
+        var $submitBtn = $('#submit-btn');
+        // 发送邮箱验证码
+        $('#authCodeBtn').click(function(event) {
+            var email = $("input[name='email']").val()
+            url = "http://192.168.10.10:8888/?s=home/email/authCode";
+            $(this).html('已发送').attr('disabled', true);
+            $.post(url, { email: email }, function(data) {
+                var res = JSON.parse(data);
+                console.log(res);
+                if (res.code == 1) {
+                    alert(res.message);
+                }
+            });
+        });
 
-			// 登录
-			$submitBtn.click(function (event) {
-				event.preventDefault();
-				var formData = $('form').serialize();
-				var url = "http://192.168.10.10:8888/?s=home/login/login&"+formData;
-				$.get(url, function (data) {
-					var res =  JSON.parse(data);
-					console.log(res);
-					if (res.code == 1) {
-						alert(res.message);
-					}
-				});
-			});
+        // 登录
+        $submitBtn.click(function(event) {
+            event.preventDefault();
+            var formData = $('form').serialize();
+            var url = "http://192.168.10.10:8888/?s=home/login/login&" + formData;
+            $.get(url, function(data) {
+                var res = JSON.parse(data);
+                console.log(res);
+                if (res.code == -1) {
+                    alert(res.message);
+                }
+                if (res.code == 1) {
+                    alert(res.message);
+                    window.location.href = "http://192.168.10.10:8888/detail.html";
+                }
+            });
+        });
 
-			// 返回上一页
-			$back.click(function (e) {
-				window.history.back();
-			});
-		});
-	</script>
+        // 返回上一页
+        $back.click(function(e) {
+            window.history.back();
+        });
+    });
+    </script>
 </body>
 
 </html>
