@@ -16,10 +16,10 @@ class Login extends HomeBase
     public function login()
     {
         $validate = new LoginValidate();
-        if (!$validate->check(input('get.'))) {
+        if (!$validate->check($_GET)) {
             return ajaxReturn(-1, $validate->getError());
         }
-        if (cache(input('get.email')) != input('get.authCode')) {
+        if (cache($_GET['email']) != $_GET['authCode']) {
             return ajaxReturn(-1, '验证码错误！');
         }
         return ajaxReturn(1, '登录成功');
@@ -27,8 +27,7 @@ class Login extends HomeBase
 
     public function sendAuthCode()
     {
-        $receiver = input('email');
-        // $receiver = '798314049@qq.com';
+        $receiver = $_POST['email'];
         $email    = new Email;
         $authCode = (new LoginService())->createAuthCode($receiver);
         $result   = $email
