@@ -3,7 +3,7 @@ namespace app\common\controller;
 
 use think\Controller;
 
-class Home extends Controller
+class HomeBase extends Controller
 {
     public function _initialize()
     {

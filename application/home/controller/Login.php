@@ -1,9 +1,12 @@
 <?php
 namespace app\home\controller;
 
-use app\common\controller\Home;
+use app\common\controller\HomeBase;
+use app\home\service\LoginService;
+use app\home\validate\Login as LoginValidate;
+use guanguans\Email;
 
-class Login extends Home
+class Login extends HomeBase
 {
     public function _initialize()
     {
@@ -12,19 +15,36 @@ class Login extends Home
 
     public function login()
     {
-        $validate = new \app\home\validate\Login();
+        $validate = new LoginValidate();
         if (!$validate->check(input('get.'))) {
             return ajaxReturn(-1, $validate->getError());
         }
-        /*if (!checkAuthCode()) {
-        return ajaxReturn(1, '验证码不正确！');
-        }*/
-
+        if (cache(input('get.email')) != input('get.authCode')) {
+            return ajaxReturn(-1, '验证码错误！');
+        }
         return ajaxReturn(1, '登录成功');
     }
 
-    public function authCode()
+    public function sendAuthCode()
     {
-        return ajaxReturn(1, '发送成功，请登录邮箱查看验证码');
+        $receiver = input('email');
+        // $receiver = '798314049@qq.com';
+        $email    = new Email;
+        $authCode = (new LoginService())->createAuthCode($receiver);
+        $result   = $email
+            ->to($receiver)
+            ->subject('琯琯直播')
+            ->message('您的验证码是：' . $authCode)
+            ->send();
+        if (!$result) {
+            return $email->getError();
+        }
+
+        return ajaxReturn(1, '发送成功，请注意查收邮件');
+    }
+
+    public function test()
+    {
+        return json_encode('dfdf');
     }
 }

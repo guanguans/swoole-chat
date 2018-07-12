@@ -109,7 +109,7 @@ $(function() {
             msg('邮箱格式不正确！');
             return;
         }
-        url = app.host + "/static/home/?s=home/login/authCode";
+        url = app.host + "/static/home/?s=home/login/sendAuthCode";
         $(this).html('已发送').attr('disabled', true);
         $.post(url, { email: email }, function(data) {
             var res = JSON.parse(data);
@@ -145,7 +145,7 @@ $(function() {
             }
             if (res.code == 1) {
                 msg(res.message);
-                window.location.href = app.host + "/static/home/detail.html";
+                // window.location.href = app.host + "/static/home/detail.html";
             }
         });
     });

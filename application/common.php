@@ -11,11 +11,16 @@
 
 // 应用公共文件
 
-function ajaxReturn($code, $message, $data = [])
-{
-    return json_encode([
-        "code"    => $code,
-        "message" => $message,
-        "data"    => $data,
-    ]);
+if (!function_exists('ajaxReturn')) {
+    /**
+     * 返回接口信息
+     */
+    function ajaxReturn($code, $message = '', $data = [])
+    {
+        return json_encode([
+            "code"    => $code,
+            "message" => $message,
+            "data"    => $data,
+        ]);
+    }
 }
