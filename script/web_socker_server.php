@@ -52,7 +52,11 @@ class WebSocket
      */
     public function onOpen($ws, $request)
     {
+        // 将客户端 fd 存入 redis 有序集合中
+        $redis = \guanguans\Redis::getInstance();
+        $redis->zAdd(config('redis.live_game_key'), $request->fd);
         echo "链接用户ID：{$request->fd}\n";
+
     }
 
     /**
@@ -176,6 +180,8 @@ class WebSocket
      */
     public function onClose($webSocket, $fd)
     {
+        // 将客户端 fd 从 redis 有序集合中删除
+        \guanguans\Predis::getInstance()->sRem(config('redis.live_game_key'), $fd);
         echo "clientid-close:{$fd}\n";
     }
 }
