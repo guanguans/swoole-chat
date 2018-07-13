@@ -36,8 +36,14 @@ class Login extends HomeBase
         if (!$result) {
         return $email->getError();
         }*/
+        $data = [
+            'method' => 'sendAuthCode',
+            'data'   => [
+                'email' => $receiver,
+            ],
+        ];
         // 投递异步任务
-        $_POST['http_object_server']->task($receiver);
+        $_POST['http_object_server']->task($data);
 
         return ajaxReturn(1, '发送成功，请注意查收邮件');
     }

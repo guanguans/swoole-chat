@@ -116,21 +116,11 @@ class Http
      */
     public function onTask($serv, $taskId, $workerId, $data)
     {
-        try {
-            $receiver = $data;
-            $email    = new \guanguans\Email;
-            $authCode = (new \app\home\service\LoginService())->createAuthCode($receiver);
-            $result   = $email
-                ->to($receiver)
-                ->subject('琯琯直播')
-                ->message('您的验证码是：' . $authCode)
-                ->send();
-            if (!$result) {
-                print_r($email->getError());
-            }
-        } catch (\Exception $e) {
-            print_r($e->getMessage());
-        }
+        $task   = new \app\common\service\TaskService();
+        $method = $data['method'];
+        // 执行对应方法
+        $res = $task->$method($data['data']);
+        print_r($res);
     }
 
     /**
