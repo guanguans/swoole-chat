@@ -13,6 +13,8 @@
     <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
     <script type="text/javascript" src="./lib/layui/layui.js" charset="utf-8"></script>
     <script type="text/javascript" src="./js/xadmin.js"></script>
+    <script type="text/javascript" src="./js/web-socker.js"></script>
+    <script type="text/javascript" src="../home/js/app.js"></script>
     <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
     <!--[if lt IE 9]>
       <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
@@ -71,12 +73,10 @@ var $submitBtn = $('#submit-btn');
 $submitBtn.click(function(event) {
     event.preventDefault();
     var formData = $('form').serialize();
-    $.get("http://singwa.swoole.com:8811?s=admin/live/push&" + formData, function(data) {
-        if (data.status == 1) {
-            // 登录成功
-        }
-        // location.href='index.html';
+    $.get(app.host + "?s=admin/admin/pushMessage&" + formData, function(data) {
+        
     }, 'json');
 });
 </script>
+
 </html>

@@ -46,19 +46,25 @@ class WebSocket
     }
 
     /**
-     * @param $server
+     * 监听 webSocker_server 连接事件
+     * @param $ws
+     * @param $request
      */
-    public function onOpen($server)
+    public function onOpen($ws, $request)
     {
-        // swoole_set_process_name("live_master");
+        echo "链接用户ID：{$request->fd}\n";
     }
 
     /**
-     * @param $server
+     * 监听 webSocker_server 消息事件
+     * @param $ws
+     * @param $client
      */
-    public function onMessage($server)
+    public function onMessage($ws, $client)
     {
-        // swoole_set_process_name("live_master");
+        echo "client-id:{$client->fd}\n";
+        echo "client-data:{$client->data}\n";
+        $ws->push($client->fd, "server-push-data:$client->fd--{$client->data}" . date('Y-m-d H:i:s'));
     }
 
     /**
@@ -159,8 +165,8 @@ class WebSocket
      */
     public function onFinish($serv, $taskId, $data)
     {
-        /*echo "taskId:{$taskId}\n";
-    echo "finish-data-sucess:{$data}\n";*/
+        echo "taskId-finish:{$taskId}\n";
+        echo "finish-data-sucess:{$data}\n";
     }
 
     /**
@@ -170,7 +176,7 @@ class WebSocket
      */
     public function onClose($webSocket, $fd)
     {
-        // echo "clientid:{$fd}\n";
+        echo "clientid-close:{$fd}\n";
     }
 }
 
