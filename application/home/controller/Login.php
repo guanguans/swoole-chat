@@ -2,9 +2,7 @@
 namespace app\home\controller;
 
 use app\common\controller\HomeBase;
-use app\home\service\LoginService;
 use app\home\validate\Login as LoginValidate;
-use guanguans\Email;
 
 class Login extends HomeBase
 {
@@ -28,22 +26,24 @@ class Login extends HomeBase
     public function sendAuthCode()
     {
         $receiver = $_POST['email'];
-        $email    = new Email;
+        /*$email    = new Email;
         $authCode = (new LoginService())->createAuthCode($receiver);
         $result   = $email
-            ->to($receiver)
-            ->subject('琯琯直播')
-            ->message('您的验证码是：' . $authCode)
-            ->send();
+        ->to($receiver)
+        ->subject('琯琯直播')
+        ->message('您的验证码是：' . $authCode)
+        ->send();
         if (!$result) {
-            return $email->getError();
-        }
+        return $email->getError();
+        }*/
+        // 投递异步任务
+        $_POST['http_object_server']->task($receiver);
 
         return ajaxReturn(1, '发送成功，请注意查收邮件');
     }
 
     public function test()
     {
-        return json_encode('dfdf');
+        return json_encode('test');
     }
 }

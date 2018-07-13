@@ -8,7 +8,7 @@ class Http
 
     const PORT = 8888;
 
-    public $http;
+    protected $http;
 
     public function __construct()
     {
@@ -39,7 +39,8 @@ class Http
     public function onWorkerStart($server, $worker_id)
     {
         // 加载基础文件
-        require __DIR__ . '/../thinkphp/base.php';
+        // require __DIR__ . '/../thinkphp/base.php';
+        require __DIR__ . '/../public/index.php';
     }
 
     /**
@@ -91,10 +92,12 @@ class Http
             }
         }
 
+        $_POST['http_object_server'] = $this->http;
+
         ob_start();
         try {
             // 执行应用并响应
-            think\Container::get('app')->run()->send();
+            \think\Container::get('app')->run()->send();
         } catch (\Exception $e) {
             print_r($e->getMessage());
         }
@@ -113,21 +116,21 @@ class Http
      */
     public function onTask($serv, $taskId, $workerId, $data)
     {
-
-        // 分发 task 任务机制，让不同的任务 走不同的逻辑
-        $obj = new app\common\lib\task\Task;
-
-        $method = $data['method'];
-        $flag   = $obj->$method($data['data']);
-        /*$obj = new app\common\lib\ali\Sms();
         try {
-        $response = $obj::sendSms($data['phone'], $data['code']);
-        }catch (\Exception $e) {
-        // todo
-        echo $e->getMessage();
-        }*/
-
-        return $flag; // 告诉worker
+            $receiver = $data;
+            $email    = new \guanguans\Email;
+            $authCode = (new \app\home\service\LoginService())->createAuthCode($receiver);
+            $result   = $email
+                ->to($receiver)
+                ->subject('琯琯直播')
+                ->message('您的验证码是：' . $authCode)
+                ->send();
+            if (!$result) {
+                print_r($email->getError());
+            }
+        } catch (\Exception $e) {
+            print_r($e->getMessage());
+        }
     }
 
     /**
@@ -137,8 +140,8 @@ class Http
      */
     public function onFinish($serv, $taskId, $data)
     {
-        echo "taskId:{$taskId}\n";
-        echo "finish-data-sucess:{$data}\n";
+        /*echo "taskId:{$taskId}\n";
+    echo "finish-data-sucess:{$data}\n";*/
     }
 
     /**
@@ -148,7 +151,7 @@ class Http
      */
     public function onClose($ws, $fd)
     {
-        echo "clientid:{$fd}\n";
+        // echo "clientid:{$fd}\n";
     }
 }
 
