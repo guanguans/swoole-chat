@@ -156,7 +156,7 @@ class WebSocket
         $task   = new \app\common\service\TaskService();
         $method = $data['method'];
         // 执行对应方法
-        $res = $task->$method($data['data']);
+        $res = $task->$method($data['data'], $serv);
         print_r($res);
     }
 

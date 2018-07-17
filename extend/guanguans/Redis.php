@@ -63,7 +63,7 @@ class Redis
     public function zrange()
     {
         try {
-            $this->redis->zrange($this->live_game_key, 0, -1);
+            return $this->redis->zrange($this->live_game_key, 0, -1);
         } catch (Exception $e) {
             return $e->getMessage();
         }
