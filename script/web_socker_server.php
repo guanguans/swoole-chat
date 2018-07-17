@@ -8,14 +8,14 @@ class WebSocket
 
     const PORT = 8888;
 
-    const CHART_PORT = 8080;
+    const CHAT_PORT = 8889;
 
     protected $webSocket;
 
     public function __construct()
     {
         $this->webSocket = new swoole_websocket_server(self::HOST, self::PORT);
-        $this->webSocket->listen(self::HOST, self::CHART_PORT, SWOOLE_SOCK_TCP);
+        $this->webSocket->listen(self::HOST, self::CHAT_PORT, SWOOLE_SOCK_TCP);
         $this->webSocket->set(
             [
                 'enable_static_handler' => true,

@@ -4,7 +4,7 @@ var websocket = new WebSocket(wsUrl);
 
 // 实例对象的 onopen 属性
 websocket.onopen = function(evt) {
-    websocket.send("hello：琯琯");
+    // websocket.send("hello：live");
     console.log("webSocker-conected-success");
 }
 
