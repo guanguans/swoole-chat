@@ -1,4 +1,4 @@
-# Swoole 图文直播
+# Swoole 聊天室
 
 
 
@@ -29,12 +29,6 @@ composer install
 
 ``` php
 <?php
-
-/**
- * 获取当前请求URL的pathinfo信息（含URL后缀）
- * @access public
- * @return string
- */
 public function pathinfo()
 {
     // if (is_null($this->pathinfo)) {
@@ -97,15 +91,21 @@ public function path()
  * 系统配置
  */
 var app = {
-    // ben
-    host:'http://192.168.10.10:8888', // 本机ip地址
+    // 本地 IP 地址
+    host:'http://192.168.10.10:8888',
 };
 ```
 
-### 运行
+### 启动服务
 
 ``` bash
 php script/web_socker_server.php
+```
+
+### 平滑重启
+
+``` bash
+sh script/restart_service.sh
 ```
 
 ### 浏览器中查看
@@ -113,3 +113,7 @@ php script/web_socker_server.php
 ```
 http://192.168.10.10:8888/static/home/detail.html
 ```
+
+## License
+
+[Apache License 2.0](./LICENSE)
