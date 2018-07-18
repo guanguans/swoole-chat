@@ -1,4 +1,4 @@
-# Swoole 聊天室
+# 基于 ThinkPHP5 和 Swoole 开发的聊天室
 
 
 
