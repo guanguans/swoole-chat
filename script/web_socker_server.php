@@ -42,7 +42,8 @@ class WebSocket
      */
     public function onStart($server)
     {
-        // swoole_set_process_name("live_master");
+        // 设置主进程名称
+        swoole_set_process_name("guanguans_master");
     }
 
     /**
