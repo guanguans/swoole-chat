@@ -129,6 +129,8 @@ class WebSocket
             }
         }
 
+        $this->writeLog();
+
         $_POST['http_object_server'] = $this->webSocket;
 
         ob_start();
@@ -181,6 +183,25 @@ class WebSocket
         // 将客户端 fd 从 redis 有序集合中删除
         \guanguans\Redis::getInstance()->zrem($fd);
         echo "clientid-close:{$fd}\n";
+    }
+
+    /**
+     * 记录日志
+     */
+    public function writeLog()
+    {
+        $datas = array_merge(['date' => date("Ymd H:i:s")], $_GET, $_POST, $_SERVER);
+
+        $logs = "";
+        foreach ($datas as $key => $value) {
+            if ($key != 'argv') {
+                $logs .= $key . ":" . $value . PHP_EOL;
+            }
+        }
+
+        swoole_async_writefile(__DIR__ . '/../runtime/log/' . date("Ym") . "/" . date("d") . "_swoole.log", $logs . PHP_EOL . PHP_EOL, function ($filename) {
+
+        }, FILE_APPEND);
     }
 }
 
