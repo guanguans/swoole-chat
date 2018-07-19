@@ -20,8 +20,10 @@ class WebSocket
             [
                 'enable_static_handler' => true,
                 'document_root'         => "/home/vagrant/code/think/public",
-                'worker_num'            => 3,
-                'task_worker_num'       => 4,
+                'worker_num'            => 2,
+                'task_worker_num'       => 1,
+                // 'daemonize'             => true, // 守护进程
+                // 'log_file'              => __DIR__ . '/swoole.server.log',
             ]
         );
 
