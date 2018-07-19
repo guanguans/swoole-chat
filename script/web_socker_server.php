@@ -18,12 +18,22 @@ class WebSocket
         $this->webSocket->listen(self::HOST, self::CHAT_PORT, SWOOLE_SOCK_TCP);
         $this->webSocket->set(
             [
-                'enable_static_handler' => true,
-                'document_root'         => "/home/vagrant/code/think/public",
-                'worker_num'            => 2,
-                'task_worker_num'       => 1,
-                // 'daemonize'             => true, // 守护进程
-                // 'log_file'              => __DIR__ . '/swoole.server.log',
+                'enable_static_handler'    => true,
+                'document_root'            => "/home/vagrant/code/think/public",
+                'worker_num'               => 2,
+                'task_worker_num'          => 1,
+                /**
+                 * 守护进程
+                 */
+                'daemonize'                => true, // 守护进程
+                'log_file'                 => __DIR__ . '/swoole.server.log',
+                /**
+                 * 心跳检测
+                 * swoole的实现原理是这样的：server每次收到客户端的数据包都会记录一个时间戳，
+                 * 60秒内循环检测下所有的连接，如果120秒内该连接还没有活动，才断开这个连接
+                 */
+                'heartbeat_check_interval' => 60,
+                'heartbeat_idle_time'      => 120,
             ]
         );
 
