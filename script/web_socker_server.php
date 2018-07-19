@@ -25,15 +25,20 @@ class WebSocket
                 /**
                  * 守护进程
                  */
-                'daemonize'                => true, // 守护进程
-                'log_file'                 => __DIR__ . '/swoole.server.log',
+                'daemonize'                => true, // 开启守护进程
+                'log_file'                 => __DIR__ . '/swoole.server.log', // 日志文件
                 /**
                  * 心跳检测
-                 * swoole的实现原理是这样的：server每次收到客户端的数据包都会记录一个时间戳，
-                 * 60秒内循环检测下所有的连接，如果120秒内该连接还没有活动，才断开这个连接
                  */
-                'heartbeat_check_interval' => 60,
-                'heartbeat_idle_time'      => 120,
+                'heartbeat_check_interval' => 60, // 60秒内循环检测下所有的连接，
+                'heartbeat_idle_time'      => 120, // 如果120秒内该连接还没有活动，才断开这个连接
+                /**
+                 * EOF检测
+                 */
+                'open_eof_check'           => true, //打开EOF检测
+                'package_eof'              => "\r\n", //设置EOF
+                'open_eof_split'           => true, // 自动分包
+
             ]
         );
 
